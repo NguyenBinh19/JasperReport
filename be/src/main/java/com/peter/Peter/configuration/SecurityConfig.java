@@ -22,6 +22,20 @@ import org.springframework.web.filter.CorsFilter;
 @EnableMethodSecurity
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {
+            "/users",
+            "/auth/token",
+            "/auth/introspect",
+            "/auth/logout",
+            "/auth/refresh"
+    };
+
+    private final String[] PUBLIC_POST_ENPOINTS = {
+            "/api-docs/**",
+            "/api-docs",
+            "/swagger-ui/**"
+    };
+
+    private final String[] PUBLIC_GET_ENPOINTS = {
         "/users", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"
     };
 
@@ -30,10 +44,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS)
-                .permitAll()
-                .anyRequest()
-                .authenticated());
+        httpSecurity.authorizeHttpRequests(request ->
+                request
+                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS)
+                        .permitAll()
+                        .requestMatchers(PUBLIC_POST_ENPOINTS)
+                        .permitAll()
+                        .requestMatchers(PUBLIC_GET_ENPOINTS)
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
                         .decoder(customJwtDecoder)
