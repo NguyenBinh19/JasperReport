@@ -1,13 +1,11 @@
 server:
-  servlet:
-    context-path: /demo
   port: 8080
 
 spring:
   datasource:
     username: root
     password: root
-    url: "jdbc:mysql://localhost:3306/peter"
+    url: "jdbc:mysql://localhost:3306/jasper_report"
   jpa:
     hibernate:
       ddl-auto: update
