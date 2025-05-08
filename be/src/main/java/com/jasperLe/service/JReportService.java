@@ -26,7 +26,6 @@ public class JReportService {
     @Autowired
     private AddressRepository repository;
 
-
     public void exportJasperReport(HttpServletResponse response) throws JRException, IOException {
         List<Address> address = repository.findAll();
         //Get file and compile it
